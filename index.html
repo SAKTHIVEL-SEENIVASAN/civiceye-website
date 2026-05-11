@@ -4,618 +4,1071 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>CivicEye | AI-Driven Civic Issue Detection | Achariya CET</title>
-<!-- Fonts & Icons -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Merriweather:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+:root {
+  --green: #1e6f5c;
+  --green-light: #e8f5f1;
+  --gold: #c9962a;
+  --gold-light: #fef6e0;
+  --red-soft: #f2a0a0;
+  --dark: #0f2c36;
+  --text: #1a2e35;
+  --border: #e2edf2;
+  --white: #ffffff;
+  --cream: #fcf9f5;
+}
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background:wh;
-    color: #1a2e35;
-    line-height: 1.5;
-    scroll-behavior: smooth;
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  /* main container */
-  .report-container {
-    max-width: 1300px;
-    margin: 0 auto;
-    background: white;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-  }
+body {
+  font-family: 'Times New Roman', Times, serif;
+  background: #f0f4f8;
+  color: var(--text);
+  line-height: 1.6;
+  scroll-behavior: smooth;
+}
 
-  /* STICKY NAVIGATION BAR */
-  .sticky-nav {
-    position: sticky;
-    top: 0;
-    background: rgb(221, 194, 194);
-    backdrop-filter: blur(4px);
-    background-color: rgba(255,255,255,0.98);
-    z-index: 100;
-    border-bottom: 1px solid #e2edf2;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-    padding: 12px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 500;
-  }
-  .nav-btn {
-    background: #f0f6f3;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 40px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 600;
-    font-size: 12px;
-    color: #1e6f5c;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  }
-  .nav-btn:hover {
-    background: #1e6f5c;
-    color: white;
-    transform: translateY(-1px);
-  }
-  .nav-btn:active {
-    transform: translateY(1px);
-  }
+.report-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  background: white;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+}
 
-  /* each topic as distinct page-like block */
-  .topic-page {
-    padding: 48px 48px;
-    background: white;
-    border-bottom: 1px solid #e2edf2;
-    scroll-margin-top: 80px; /* for sticky nav offset */
-  }
-  .topic-page:last-child {
-    border-bottom: none;
-  }
+/* TOP INFO BAR */
+.top-info-bar {
+  background: var(--dark);
+  color: #a8cdd6;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 9px 24px;
+  font-size: 12px;
+  flex-wrap: wrap;
+}
+.top-info-bar span { display: flex; align-items: center; gap: 6px; }
+.top-info-bar i { color: var(--gold); }
 
-  .topic-title {
-    font-family: 'Merriweather', serif;
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    border-left: 6px solid #f5c542;
-    padding-left: 20px;
-    margin-bottom: 28px;
-    color: #0f2c36;
-  }
+/* STICKY NAV */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.98);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  border-bottom: 2px solid var(--green-light);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  padding: 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.nav-btn {
+  background: var(--green-light);
+  border: none;
+  padding: 7px 15px;
+  border-radius: 40px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 700;
+  font-size: 11.5px;
+  color: var(--green);
+  cursor: pointer;
+  transition: all 0.22s;
+  letter-spacing: 0.2px;
+}
+.nav-btn:hover { background: var(--green); color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,111,92,0.3); }
 
-  /* cards */
-  .card {
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid #e9ecef;
-    padding: 24px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-  }
-  .grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 28px;
-  }
-  .grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-  .badge {
-    background: #fef6e0;
-    color: #c48a2b;
-    padding: 4px 12px;
-    border-radius: 40px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-  .limitation-list {
-    list-style: none;
-  }
-  .limitation-list li {
-    background: #fff5f0;
-    margin-bottom: 14px;
-    padding: 16px 20px;
-    border-radius: 16px;
-    border-left: 6px solid #f2a0a0;
-  }
-  .video-demo {
-    background: #0a1c24;
-    border-radius: 24px;
-    padding: 20px;
-    text-align: center;
-  }
-  video {
-    max-width: 100%;
-    border-radius: 16px;
-  }
-  .team-pics {
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .member-card {
-    text-align: center;
-    width: 100px;
-  }
-  .member-img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #f5c542;
-  }
-  /* cover header with corner images */
-  .cover-header {
-    position: relative;
-    background: linear-gradient(105deg, #fcf9f5 0%, #ffffff 100%);
-    padding: 30px 40px 30px 40px;
-    border-bottom: 3px solid #f2a0a0;
-    overflow: hidden;
-  }
-  .corner-left {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    width: 85px;
-    opacity: 0.85;
-    z-index: 1;
-  }
-  .corner-right {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 85px;
-    opacity: 0.85;
-    z-index: 1;
-  }
-  .logo-area {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-  }
-  .diagram-box {
-    background: #fbfefc;
-    border-radius: 24px;
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #e2e9e5;
-  }
-  footer {
-    background: #0f2c36;
-    color: #ccdfe6;
-    text-align: center;
-    padding: 28px;
-    font-size: 13px;
-  }
-  .table-lit {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .table-lit th {
-    background: #1e6f5c;
-    color: white;
-    padding: 12px;
-  }
-  .table-lit td {
-    padding: 10px;
-    border-bottom: 1px solid #e6edea;
-  }
-  @media (max-width: 800px) {
-    .topic-page { padding: 28px 20px; }
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .corner-left, .corner-right { width: 50px; }
-    .nav-btn { padding: 5px 10px; font-size: 10px; }
-  }
-  .world-badge {
-    background: #fef3c7;
-    padding: 6px 12px;
-    border-radius: 30px;
-    font-size: 12px;
-    font-weight: 700;
-    color: #b45309;
-  }
+/* ===== COVER ===== */
+.cover-header {
+  position: relative;
+  background: linear-gradient(135deg, #f8fffe 0%, #fcf9f5 50%, #f0f8f5 100%);
+  padding: 0;
+  border-bottom: 4px solid var(--green);
+  overflow: hidden;
+}
+.cover-top-strip {
+  background: var(--green);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 32px;
+  font-size: 12px;
+  gap: 12px;
+}
+.cover-top-strip .ribbon-badge {
+  background: var(--gold);
+  color: white;
+  padding: 5px 18px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* CORNER LOGOS - exactly like the screenshot */
+.cover-logo-corners {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 28px 0 28px;
+}
+.corner-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.corner-logo-right {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 12px;
+}
+.cover-college-center {
+  text-align: center;
+  flex: 1;
+  padding: 0 20px;
+}
+.cover-college-center h2 {
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--dark);
+  letter-spacing: 0.5px;
+}
+.cover-college-center p {
+  font-size: 13px;
+  color: #5a7a84;
+  margin-top: 5px;
+}
+
+.cover-body {
+  padding: 18px 36px 32px;
+}
+
+.cover-badges-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.badge-pill {
+  padding: 6px 16px;
+  border-radius: 40px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.badge-green { background: var(--green-light); color: var(--green); border: 1px solid #b3d8cc; }
+.badge-gold  { background: var(--gold-light); color: var(--gold); border: 1px solid #e8c97a; }
+
+.cover-title-block { margin-bottom: 22px; text-align: center; }
+.cover-title-block h1 {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--dark);
+  line-height: 1.25;
+  margin-bottom: 10px;
+}
+.cover-title-block .subtitle {
+  font-size: 14px;
+  color: var(--green);
+  font-style: italic;
+  font-weight: 600;
+}
+
+/* STATS BAR */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.stat-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-3px); }
+.stat-icon { font-size: 24px; color: var(--green); margin-bottom: 6px; }
+.stat-label { font-size: 12px; font-weight: 700; color: var(--dark); margin-bottom: 3px; }
+.stat-sub { font-size: 11px; color: #6b8f9a; }
+
+/* GUIDE + TEAM */
+.guide-team-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--cream);
+  border-radius: 22px;
+  padding: 20px 26px;
+  border: 1px solid #ede8e0;
+}
+.guide-block { display: flex; align-items: center; gap: 16px; }
+.member-img {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.member-info h4 { font-size: 14px; font-weight: 700; color: var(--dark); }
+.member-info p { font-size: 12px; color: #5a7a84; margin-top: 2px; }
+.team-row { display: flex; gap: 22px; flex-wrap: wrap; }
+.team-member { text-align: center; }
+.team-member .member-img { width: 60px; height: 60px; }
+.team-member .name { font-size: 12px; font-weight: 700; margin-top: 5px; color: var(--dark); }
+.team-member .roll { font-size: 11px; color: #8aa8b0; }
+
+/* TOPIC PAGES */
+.topic-page {
+  padding: 48px 48px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 88px;
+  background: white;
+}
+.topic-page:nth-child(even) { background: #fafcfb; }
+
+.topic-title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 26px;
+  font-weight: 800;
+  border-left: 6px solid var(--gold);
+  padding-left: 18px;
+  margin-bottom: 28px;
+  color: var(--dark);
+}
+
+/* CARDS */
+.card {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 26px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  transition: box-shadow 0.2s;
+}
+.card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.07); }
+.grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+/* LIMITATION LIST */
+.limitation-list { list-style: none; }
+.limitation-list li {
+  background: #fff8f8;
+  margin-bottom: 14px;
+  padding: 18px 22px;
+  border-radius: 16px;
+  border-left: 6px solid var(--red-soft);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* TABLE */
+.table-lit { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-lit th { background: var(--green); color: white; padding: 13px 12px; text-align: left; }
+.table-lit td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.table-lit tr:hover td { background: var(--green-light); }
+
+/* DIAGRAM BOX — centered content */
+.diagram-box {
+  background: white;
+  border-radius: 22px;
+  padding: 28px 20px;
+  margin: 20px auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.diagram-box h4 {
+  color: var(--green);
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  align-self: flex-start;
+}
+.diagram-box .mermaid {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.diagram-box svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* SCREENSHOTS */
+.screenshot-img {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+  display: block;
+}
+
+/* CONFERENCE */
+.conf-section {
+  background: linear-gradient(135deg, #f0f8f5, #fef9ee);
+  border: 1px solid #d4e9df;
+  border-radius: 22px;
+  padding: 28px 32px;
+  margin-top: 28px;
+}
+.conf-section h3 { color: var(--green); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.conf-img-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin-top: 18px; }
+.conf-img-grid img { width: 100%; border-radius: 14px; border: 2px solid var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+.pub-section {
+  background: linear-gradient(135deg, #fff8f0, #f8fffe);
+  border: 1px solid #e8d9c0;
+  border-radius: 22px;
+  padding: 28px 32px;
+  margin-top: 24px;
+}
+.pub-section h3 { color: var(--gold); font-size: 18px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+.pub-section img { width: 100%; border-radius: 14px; border: 2px solid var(--gold); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+
+/* VIDEO */
+.video-demo {
+  background: var(--dark);
+  border-radius: 22px;
+  padding: 22px;
+  text-align: center;
+  margin-top: 20px;
+}
+.video-demo p { color: #a8cdd6; margin-bottom: 14px; font-size: 14px; }
+video { max-width: 100%; border-radius: 14px; }
+
+/* ADVANTAGE CARDS */
+.adv-card {
+  background: white;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  padding: 24px 20px;
+  text-align: center;
+  transition: all 0.22s;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+}
+.adv-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(30,111,92,0.1); border-color: #b3d8cc; }
+.adv-card .icon { font-size: 28px; margin-bottom: 12px; }
+.adv-card h4 { font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+.adv-card p { font-size: 12.5px; color: #5a7a84; line-height: 1.6; }
+
+/* ARCH NOTE */
+.arch-note {
+  background: #fff8f0;
+  border: 1px solid #f0d8b0;
+  border-left: 5px solid var(--gold);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: #6b4a10;
+}
+
+/* THANK YOU SLIDE */
+.thankyou-page {
+  background: linear-gradient(135deg, var(--dark) 0%, #1e6f5c 100%);
+  padding: 80px 48px;
+  text-align: center;
+  scroll-margin-top: 88px;
+}
+.thankyou-page .ty-title {
+  font-size: 60px;
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.thankyou-page .ty-sub {
+  font-size: 18px;
+  color: #a8ddd6;
+  font-style: italic;
+  margin-bottom: 36px;
+}
+.thankyou-page .ty-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 22px;
+  padding: 30px 36px;
+  max-width: 700px;
+  margin: 0 auto 28px;
+  color: #cce8e0;
+  font-size: 14.5px;
+  line-height: 1.8;
+}
+.thankyou-page .ty-team {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.ty-member { text-align: center; color: #cce8e0; }
+.ty-member img {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+.ty-member .ty-name { font-weight: 700; font-size: 13px; color: white; }
+.ty-member .ty-roll { font-size: 11px; color: #8abfb8; }
+.ty-ext-badge {
+  display: inline-block;
+  background: var(--gold);
+  color: white;
+  padding: 8px 24px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 14px;
+  margin-top: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* ACKNOWLEDGEMENT */
+.ack-page {
+  padding: 48px 48px;
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: 88px;
+  background: var(--cream);
+}
+.ack-page .topic-title { border-left: 6px solid var(--green); }
+.ack-content {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  padding: 30px 36px;
+  font-size: 14.5px;
+  line-height: 2;
+  text-align: justify;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+.ack-name {
+  color: var(--green);
+  font-weight: 700;
+}
+.ack-sig {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.ack-sig-block { text-align: center; font-size: 13px; color: #5a7a84; }
+.ack-sig-block strong { display: block; color: var(--dark); font-size: 14px; margin-top: 4px; }
+
+/* FOOTER */
+footer {
+  background: var(--dark);
+  color: #a8cdd6;
+  text-align: center;
+  padding: 30px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.section-intro {
+  font-size: 15px;
+  color: #3c6e71;
+  text-align: justify;
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 800px) {
+  .topic-page, .ack-page, .thankyou-page { padding: 28px 18px; }
+  .grid-2, .grid-3, .stats-bar { grid-template-columns: 1fr; }
+  .cover-body { padding: 16px; }
+  .cover-title-block h1 { font-size: 22px; }
+  .guide-team-row { flex-direction: column; }
+  .conf-img-grid { grid-template-columns: 1fr; }
+  .cover-logo-corners { flex-direction: column; align-items: center; gap: 12px; }
+  .thankyou-page .ty-title { font-size: 40px; }
+}
 </style>
 </head>
 <body>
 <div class="report-container">
-  <!-- STICKY NAVIGATION BUTTONS -->
+
+  <!-- TOP INFO BAR -->
+  <div class="top-info-bar">
+    <span><i class="fas fa-calendar-alt"></i> Final Review Date: 11-05-2026</span>
+    <span><i class="fas fa-microchip"></i> AI &amp; Data Science Department</span>
+    <span><i class="fas fa-city"></i> AI Powered Smart Governance System</span>
+    <span><i class="fas fa-university"></i> Achariya College of Engineering Technology</span>
+  </div>
+
+  <!-- STICKY NAV -->
   <div class="sticky-nav">
+    <button class="nav-btn" data-target="acknowledgement">Acknowledgement</button>
     <button class="nav-btn" data-target="abstract">Abstract</button>
     <button class="nav-btn" data-target="domain">Domain</button>
-    <button class="nav-btn" data-target="lit-survey">Literature survey</button>
-    <button class="nav-btn" data-target="existing-system">Existing system</button>
-    <button class="nav-btn" data-target="existing-arch">Existing system Architecture</button>
+    <button class="nav-btn" data-target="lit-survey">Literature Survey</button>
+    <button class="nav-btn" data-target="existing-system">Existing System</button>
+    <button class="nav-btn" data-target="existing-arch">Existing Architecture</button>
     <button class="nav-btn" data-target="limitations">Limitations</button>
-    <button class="nav-btn" data-target="proposed">Proposed system</button>
-    <button class="nav-btn" data-target="proposed-arch">Proposed system architecture</button>
+    <button class="nav-btn" data-target="proposed">Proposed System</button>
+    <button class="nav-btn" data-target="proposed-arch">Proposed Architecture</button>
     <button class="nav-btn" data-target="advantages">Advantages</button>
     <button class="nav-btn" data-target="modules">Modules</button>
     <button class="nav-btn" data-target="requirements">Requirements</button>
-    <button class="nav-btn" data-target="screenshots">Implementation screenshots</button>
+    <button class="nav-btn" data-target="screenshots">Screenshots</button>
     <button class="nav-btn" data-target="conclusion">Conclusion</button>
-    <button class="nav-btn" data-target="future">Future work</button>
+    <button class="nav-btn" data-target="future">Future Work</button>
     <button class="nav-btn" data-target="references">References</button>
+    <button class="nav-btn" data-target="thankyou" style="background:var(--gold-light); color:var(--gold); border:1px solid #e8c97a;">Thank You</button>
   </div>
 
-  <!-- COVER SECTION with corner images and world-class badge -->
+  <!-- ===== COVER ===== -->
   <div class="cover-header">
-    <img src="images/left side top.png" alt="Left Decorative" class="corner-left" onerror="this.style.display='none'">
-    <img src="images/right side top.png" alt="Right Decorative" class="corner-right" onerror="this.style.display='none'">
-    <div class="logo-area">
-      <div class="college-details">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="background:#1e6f5c; width:55px; height:55px; border-radius:15px; display:flex; justify-content:center; align-items:center; color:white; font-size:24px;">
-            <i class="fas fa-eye"></i>
+    <div class="cover-top-strip">
+      <span><i class="fas fa-graduation-cap"></i> &nbsp;Dept. of AI &amp; Data Science &nbsp;|&nbsp; 2022–2026 Batch</span>
+      <span class="ribbon-badge"><i class="fas fa-award"></i> &nbsp;FINAL REVIEW 2026</span>
+      <span><i class="fas fa-map-marker-alt"></i> &nbsp;Puducherry, India</span>
+    </div>
+
+    <!-- CORNER LOGOS — left: ACET logo, right: IYA/college logo -->
+    <div class="cover-logo-corners">
+      <img src="images/logo.jpeg" alt="ACET Logo" class="corner-logo" onerror="this.outerHTML='<div style=\'width:90px;height:90px;background:var(--green);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:32px;\'><i class=\'fas fa-university\'></i></div>'">
+      <div class="cover-college-center">
+        <h2>ACHARIYA COLLEGE OF ENGINEERING TECHNOLOGY</h2>
+        <p>Approved by AICTE, New Delhi &nbsp;|&nbsp; Affiliated to Pondicherry University<br>Department of Artificial Intelligence &amp; Data Science &nbsp;|&nbsp; 2022–2026 Batch</p>
+      </div>
+      <img src="images/right side top.png" alt="IYA Logo" class="corner-logo-right" onerror="this.outerHTML='<div style=\'width:90px;height:90px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;font-size:32px;\'><i class=\'fas fa-globe\'></i></div>'">
+    </div>
+
+    <div class="cover-body">
+      <div class="cover-badges-row">
+        <span class="badge-pill badge-green"><i class="fas fa-microchip"></i> &nbsp;Final Year Project 2025-26</span>
+        <span class="badge-pill badge-gold"><i class="fas fa-globe"></i> &nbsp;World Class Education</span>
+      </div>
+
+      <!-- TITLE -->
+      <div class="cover-title-block">
+        <h1>CivicEye: An AI-Driven Computer Vision System<br>for Autonomous Civic Anomaly Detection,<br>Prioritization &amp; Expedited Resolution</h1>
+        <p class="subtitle">Real-time YOLOv8 Neural Inferencing &nbsp;|&nbsp; Hybrid GPS + EXIF + OCR Geo-Extraction &nbsp;|&nbsp; Predictive Severity &amp; Cost Modeling</p>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-brain"></i></div>
+          <div class="stat-label">YOLOv8 AI Detection</div>
+          <div class="stat-sub">Deep Learning Powered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-map-pin"></i></div>
+          <div class="stat-label">GPS + OCR Location</div>
+          <div class="stat-sub">Hybrid Geo-Extraction</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+          <div class="stat-label">SMTP Auto Report</div>
+          <div class="stat-sub">Instant Alert Dispatch</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+          <div class="stat-label">Under 30 Seconds</div>
+          <div class="stat-sub">End-to-End Processing</div>
+        </div>
+      </div>
+
+      <!-- GUIDE + TEAM -->
+      <div class="guide-team-row">
+        <div class="guide-block">
+          <img class="member-img" src="images/akiladevi.jpg.jpeg" alt="Guide" onerror="this.style.display='none'">
+          <div class="member-info">
+            <h4><i class="fas fa-chalkboard-user" style="color:var(--green);"></i> &nbsp;Project Guide</h4>
+            <h4 style="margin-top:4px;">Mrs. P. Akila Devi</h4>
+            <p>Assistant Professor, AI&amp;DS</p>
+            <p style="color:var(--green);">akiladevi.career@gmail.com</p>
           </div>
-          <div>
-            <h2>ACHARIYA COLLEGE OF ENGINEERING TECHNOLOGY</h2>
-            <p>Approved by AICTE, New Delhi | Affiliated to Pondicherry University<br>Department of Artificial Intelligence & Data Science | 2022–2026 Batch</p>
+        </div>
+        <div class="team-row">
+          <div class="team-member">
+            <img class="member-img" src="images/sakthivel.jpg.jpeg" alt="Sakthivel" onerror="this.style.display='none'">
+            <div class="name">Mr. Sakthivel S M</div>
+            <div class="roll">22TP0017</div>
+          </div>
+          <div class="team-member">
+            <img class="member-img" src="images/harish.jpg.jpeg" alt="Harish" onerror="this.style.display='none'">
+            <div class="name">Mr. Harish Kumar S</div>
+            <div class="roll">22TP0009</div>
+          </div>
+          <div class="team-member">
+            <img class="member-img" src="images/logajothy.jpg.jpeg" alt="Loga Jothy" onerror="this.style.display='none'">
+            <div class="name">Mr. Loga Jothy V</div>
+            <div class="roll">22TP0013</div>
           </div>
         </div>
       </div>
-      <div>
-        <span class="badge"><i class="fas fa-microchip"></i> Final Year Project 2025-26</span>
-        <span class="world-badge" style="margin-left: 10px;"><i class="fas fa-globe"></i> World Class Education</span>
-      </div>
     </div>
-    <div style="margin-top: 50px;">
-      <div style="font-family: 'JetBrains Mono'; font-size:12px; color:#1e6f5c;">// AI + Computer Vision // Smart Governance</div>
-      <h1 style="font-size: 46px; font-weight:800; margin: 12px 0 8px; line-height:1.2;">CivicEye: An AI-Driven Vision-Based System<br>for Automated Civic Issue Detection,<br>Prioritization & Resolution</h1>
-      <p style="font-size: 18px; color:#3c6e71; font-style:italic;">Real‑time YOLO detection | Hybrid Geo‑Extraction (EXIF/OCR/Manual) | Severity & Cost Modeling</p>
-    </div>
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 40px; background:#fdf6ec; padding: 20px 24px; border-radius: 28px;">
-      <div>
-        <p><strong><i class="fas fa-chalkboard-user"></i> Project Guide</strong><br>Mrs. P. Akila Devi (AP/AI&DS)<br><span style="font-family: monospace;">akiladevi.career@gmail.com</span></p>
-      </div>
-      <div class="team-pics">
-        <div class="member-card"><img class="member-img" src="images/akiladevi.jpg.jpeg" alt="Guide"><div class="member-name">Mrs. Akila Devi P</div><div>Assistant Professor</div></div>
-        <div class="member-card"><img class="member-img" src="images/sakthivel.jpg.jpeg" alt="Sakthivel"><div>Mr. Sakthivel S M</div><div>22TP0017</div></div>
-        <div class="member-card"><img class="member-img" src="images/harish.jpg.jpeg" alt="Harish"><div>Mr. Harish Kumar S</div><div>22TP0009</div></div>
-        <div class="member-card"><img class="member-img" src="images/logajothy.jpg.jpeg" alt="Loga Jothy"><div>Mr. Loga Jothy V</div><div>22TP0013</div></div>
+  </div>
+
+  <!-- ACKNOWLEDGEMENT -->
+  <div class="ack-page" id="acknowledgement">
+    <div class="topic-title">Acknowledgement</div>
+    <div class="ack-content">
+      <p>We humbly submit all glory and thanks to our <span class="ack-name">Almighty</span> for showering blessings upon us and giving us the necessary wisdom for accomplishing this project.</p>
+
+      <p style="margin-top:14px;">We take immense pleasure in thanking our Chief Mentor, <span class="ack-name">Tr. J. Arawindhan</span>, Achariya Educational Trust, for providing us with the environment to complete this project successfully.</p>
+
+      <p style="margin-top:14px;">We express our heartfelt regards and sincere thanks to our beloved Principal, <span class="ack-name">Dr. S. Gurulingam</span>, Professor, for his constant encouragement throughout the course of this project work.</p>
+
+      <p style="margin-top:14px;">We extend our gratitude to <span class="ack-name">Dr. S. Jeevidha</span>, Assistant Professor &amp; Head of the Department, for permitting us to carry out this project work.</p>
+
+      <p style="margin-top:14px;">Words are inadequate to offer our thanks to our guide, <span class="ack-name">Mrs. P. Akila Devi</span>, Assistant Professor, Department of AI &amp; Data Science, for her valuable suggestions, innovative ideas, and constant support at every stage of this project's development.</p>
+
+      <p style="margin-top:14px;">We also extend our thanks to our Project Coordinator, <span class="ack-name">Mrs. S. Rajalakshmi</span>, Assistant Professor &amp; Head, along with all teaching and non-teaching staff members for their valuable guidance and suggestions in completing this project on time.</p>
+
+      <p style="margin-top:14px;">Finally, yet importantly, we thank our beloved <span class="ack-name">parents, friends</span>, and all who directly or indirectly contributed to the success of this project.</p>
+
+      <div class="ack-sig">
+        <div class="ack-sig-block">
+          Project Guide<br><strong>Mrs. P. Akila Devi</strong><br><span style="font-size:12px;">AP/AI&DS, Achariya CET</span>
+        </div>
+        <div class="ack-sig-block">
+          Team Members<br>
+          <strong>Sakthivel S M (22TP0017)</strong><br>
+          <strong>Harish Kumar S (22TP0009)</strong><br>
+          <strong>Loga Jothy V (22TP0013)</strong>
+        </div>
       </div>
     </div>
   </div>
-  
 
   <!-- 01. ABSTRACT -->
   <div class="topic-page" id="abstract">
     <div class="topic-title">01. Abstract</div>
-    <div class="card" style="background:#fcf9f5;">
-      <p><strong>CivicEye</strong> is an AI-based system for automatic civic issue reporting. It allows citizens to capture images with location using a web interface. The system uses <strong>YOLOv8</strong> to detect potholes, calculate damage severity, and assign priority levels. It also estimates repair cost and manpower, and automatically sends complaint details to government authorities. A hybrid location method (GPS, EXIF, OCR) ensures accurate location detection. This system reduces manual work and speeds up the reporting process to under 30 seconds.</p>
+    <div class="card" style="background:var(--cream);">
+      <p style="text-align:justify; line-height:1.75; font-size:15px;">
+        Contemporary civic issue reporting systems still depend heavily on manual verification, delayed processing, and subjective damage assessment. Most existing platforms only allow users to upload complaints and images, but they lack intelligent automation for real-time validation, severity analysis, and priority-based resolution. This creates a major gap in Smart City Governance (SCG), leading to slow response times and inefficient maintenance management.
+      </p>
+      <p style="text-align:justify; line-height:1.75; font-size:15px; margin-top:16px;">
+        Based on these observations, <strong>CivicEye</strong> proposes an Artificial Intelligence (AI) driven civic issue detection system using You Only Look Once Version 8 (YOLOv8) Computer Vision technology. The system automatically detects potholes and road damages from uploaded images and calculates the severity level based on the affected area. It also combines Global Positioning System (GPS) data, Exchangeable Image File Format (EXIF) metadata, and Optical Character Recognition (OCR) based location extraction to improve location accuracy.
+      </p>
+      <p style="text-align:justify; line-height:1.75; font-size:15px; margin-top:16px;">
+        The detected issue, severity score, estimated repair cost, manpower requirement, and annotated image are automatically sent to municipal authorities through a secure reporting system using Simple Mail Transfer Protocol (SMTP) services. By reducing manual work and enabling intelligent automation, CivicEye improves the speed, accuracy, and efficiency of civic issue management within modern smart city environments.
+      </p>
     </div>
   </div>
 
   <!-- 02. DOMAIN -->
   <div class="topic-page" id="domain">
     <div class="topic-title">02. Domain</div>
+    <p class="section-intro">
+      The proposed project CivicEye belongs to the domains of Artificial Intelligence (AI), Computer Vision (CV), Smart City Governance, and Web Technologies. The system combines deep learning techniques with intelligent civic issue reporting to automate the detection and prioritization of road damages such as potholes.
+    </p>
     <div class="grid-2">
-      <div class="card" style="border-left: 4px solid #f2a0a0;"><i class="fas fa-brain" style="font-size:28px; color:#1e6f5c;"></i><h3 style="margin:12px 0 8px;">Artificial Intelligence & Computer Vision</h3><p>YOLO (CNN architecture), real-time object detection, instance segmentation using Ultralytics YOLOv8, OpenCV for pixel analysis.</p></div>
-      <div class="card" style="border-left: 4px solid #f5c542;"><i class="fas fa-city" style="font-size:28px; color:#1e6f5c;"></i><h3 style="margin:12px 0 8px;">Smart City & GovTech</h3><p>e-Governance automation, geo-tagging, OCR-based address extraction, automated email dispatch, infrastructure monitoring.</p></div>
+      <div class="card" style="border-left:4px solid var(--red-soft);">
+        <i class="fas fa-brain" style="font-size:28px; color:var(--green);"></i>
+        <h3 style="margin:12px 0 8px;">Artificial Intelligence &amp; Computer Vision</h3>
+        <p style="text-align:justify; font-size:14px; line-height:1.7;">The project mainly focuses on using YOLOv8 for real-time object detection and image analysis. Detected damages are further processed using severity calculation techniques and geo-location extraction methods to improve municipal response efficiency.</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--gold);">
+        <i class="fas fa-city" style="font-size:28px; color:var(--gold);"></i>
+        <h3 style="margin:12px 0 8px;">Smart City Governance &amp; Web Technologies</h3>
+        <p style="text-align:justify; font-size:14px; line-height:1.7;">The system integrates modern web technologies for image uploading, location tracking, report generation, and automated notification delivery to government authorities, improving speed, accuracy, and efficiency of civic infrastructure maintenance.</p>
+      </div>
     </div>
   </div>
 
-<div class="topic-page" id="lit-survey">
-  <div class="topic-title">03. Literature Survey</div>
-
-  <div class="card" style="padding:0; overflow-x:auto;">
-    <table class="table-lit">
-      <thead>
-        <tr>
-          <th>S.No</th>
-          <th>System / Source</th>
-          <th>Year</th>
-          <th>Method / Approach</th>
-          <th>Key Features</th>
-          <th>Limitations</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Namma Salai (Tamil Nadu Govt)</td>
-          <td>2023</td>
-          <td>Mobile app for road issue reporting with GPS</td>
-          <td>Supports multiple civic complaints, geo-tagging</td>
-          <td>No AI detection or priority system</td>
-        </tr>
-
-        <tr>
-          <td>2</td>
-          <td>FixMyStreet (UK Govt)</td>
-          <td>2019</td>
-          <td>Web-based crowdsourced platform</td>
-          <td>Map-based complaint tracking</td>
-          <td>No AI verification or severity analysis</td>
-        </tr>
-
-        <tr>
-          <td>3</td>
-          <td>Civic Reporter (Hyderabad)</td>
-          <td>2022</td>
-          <td>Mobile app with photo + GPS upload</td>
-          <td>Issue tracking and updates</td>
-          <td>Manual processing delays</td>
-        </tr>
-
-        <tr>
-          <td>4</td>
-          <td>Snap Send Solve</td>
-          <td>2021</td>
-          <td>Mobile civic complaint system</td>
-          <td>Simple UI, fast reporting</td>
-          <td>No automation or AI-based prioritization</td>
-        </tr>
-
-        <tr>
-          <td>5</td>
-          <td>Civita App</td>
-          <td>2022</td>
-          <td>Smart city reporting dashboard</td>
-          <td>Real-time reporting, notifications</td>
-          <td>No visual analysis of images</td>
-        </tr>
-
-        <tr>
-          <td>6</td>
-          <td>RaastaFix (India)</td>
-          <td>2023</td>
-          <td>AI-assisted routing with geo-tagging</td>
-          <td>Complaint categorization</td>
-          <td>Limited automation and no cost estimation</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- 03. LITERATURE SURVEY -->
+  <div class="topic-page" id="lit-survey">
+    <div class="topic-title">03. Literature Survey</div>
+    <div class="card" style="padding:0; overflow-x:auto;">
+      <table class="table-lit">
+        <thead>
+          <tr><th>S.No</th><th>System / Framework</th><th>Year</th><th>Approach</th><th>Core Features</th><th>Limitations</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Namma Salai (Tamil Nadu Gov.)</td><td>2023</td><td>Mobile app with basic GPS for civic road reporting.</td><td>Crowdsourced reporting with geo-tagging.</td><td>No AI-based image validation; relies on human appraisal.</td></tr>
+          <tr><td>2</td><td>FixMyStreet (UK)</td><td>2019</td><td>Web-centric crowdsourced complaint platform.</td><td>Map-based visualization dashboard.</td><td>Lacks intelligent prioritization and severity triaging.</td></tr>
+          <tr><td>3</td><td>Civic Reporter (Hyderabad)</td><td>2022</td><td>Mobile app with photo upload and GPS APIs.</td><td>Basic issue tracking and admin dashboarding.</td><td>Manual latency and human evaluation bias.</td></tr>
+          <tr><td>4</td><td>Snap Send Solve</td><td>2021</td><td>Commercial civic complaint aggregator.</td><td>High-speed UI-driven reporting.</td><td>No automated cost estimation or neural detection.</td></tr>
+          <tr><td>5</td><td>Civita Smart Platform</td><td>2022</td><td>Enterprise smart city dashboard.</td><td>Real-time querying and departmental routing.</td><td>No Computer Vision; images are passive only.</td></tr>
+          <tr><td>6</td><td>RaastaFix (Academic)</td><td>2023</td><td>Hybrid AI routing with geo-spatial tagging.</td><td>Automated categorization and routing.</td><td>High overhead; no predictive financial estimation.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:16px; padding:16px 20px; background:#fff8f0; border-left:5px solid var(--red-soft); border-radius:14px; font-size:13.5px; color:#7a3a10;">
+      <strong><i class="fas fa-search"></i> Research Gap:</strong> A critical void exists in architectures capable of providing <em>autonomous, real-time, deep-learning-driven visual validation</em> coupled with deterministic severity calculation, algorithmic prioritization, and predictive resource routing without human intervention.
+    </div>
   </div>
 
-  <div class="badge" style="margin-top: 16px;">
-    🔍 Research Gap: Existing systems lack AI-based detection, severity calculation, and automatic complaint dispatch.
+  <!-- 04. EXISTING SYSTEM -->
+  <div class="topic-page" id="existing-system">
+    <div class="topic-title">04. Existing System</div>
+    <div class="card" style="background:var(--cream);">
+      <p style="text-align:justify; line-height:1.75; font-size:15px;">
+        The predominant civic issue management architectures currently operational within municipal frameworks—including <strong>Namma Salai</strong>, <strong>FixMyStreet</strong>, and <strong>Civic Reporter</strong>—function primarily as passive digital repositories. They facilitate manual grievance submissions entirely reliant on citizen-provided photographic evidence and basic GPS coordinates from consumer-grade mobile hardware.
+      </p>
+      <p style="text-align:justify; line-height:1.75; font-size:15px; margin-top:16px;">
+        Crucially, these legacy systems are devoid of autonomous AI-based verification, objective severity quantification, intelligent prioritization, and predictive repair cost estimation. They necessitate heavy reliance on human-in-the-loop processing, requiring municipal officers to manually review unverified images and subjectively estimate damage—escalating resolution latency from days to several weeks.
+      </p>
+    </div>
   </div>
-</div>
 
-<div class="topic-page" id="existing-system">
-  <div class="topic-title">04. Existing System</div>
-
-  <p>
-    Existing civic applications such as <strong>Namma Salai</strong>, 
-    <strong>FixMyStreet</strong>, and <strong>Civic Reporter</strong> allow users 
-    to report issues using images and GPS location. However, these systems rely 
-    on manual verification and lack AI-based analysis. There is no automatic 
-    severity calculation, prioritization, or cost estimation. As a result, 
-    complaint processing is slow and often takes several days or weeks.
-  </p>
-</div>
-  <!-- 05. EXISTING SYSTEM ARCHITECTURE -->
+  <!-- 05. EXISTING ARCHITECTURE -->
   <div class="topic-page" id="existing-arch">
     <div class="topic-title">05. Existing System Architecture</div>
     <div class="diagram-box">
+      <h4><i class="fas fa-project-diagram"></i> Legacy Civic Reporting Workflow</h4>
       <div class="mermaid">
 graph TD
-    Citizen["🧑 Citizen"] -->|Text + optional photo| Portal["Civic Portal"]
-    Portal -->|Unstructured| DB["Manual DB"]
-    DB -->|Human review| Officer["Officer"]
-    Officer -->|No severity| Dept["PWD"]
-    Dept -->|Site visit weeks later| Repair["Repair"]
-    style Officer fill:#fef3c7,stroke:#f2a0a0
+    Citizen["🧑 Citizen End-User"] -->|Manual Photo + Text Entry| Portal["🌐 Passive Civic Web Portal"]
+    Portal -->|Stores Unstructured Data| DB["🗄️ Centralized Database"]
+    DB -->|Manual Extraction Required| Officer["👨‍💼 Municipal Officer\nSubjective Review"]
+    Officer -->|Manual Assessment| Dept["🏗️ Public Works Dept PWD"]
+    Dept -->|Dispatches Scout Team| Scout["🔍 On-Site Physical Inspection"]
+    Scout -->|Manual Cost Estimation| Repair["🛠️ Delayed Infrastructure Repair"]
+    style Officer fill:#fef3c7,stroke:#f2a0a0,stroke-width:2px
+    style Scout fill:#fef3c7,stroke:#f2a0a0,stroke-width:2px
+    style Repair fill:#ffe4e4,stroke:#f2a0a0,stroke-width:2px
       </div>
     </div>
   </div>
 
   <!-- 06. LIMITATIONS -->
   <div class="topic-page" id="limitations">
-    <div class="topic-title">06. Limitations of Existing System</div>
+    <div class="topic-title">06. Limitations of Existing Systems</div>
     <ul class="limitation-list">
-      <li><i class="fas fa-ban"></i> <strong>No quantitative severity assessment</strong> – equal weight to all complaints.</li>
-      <li><i class="fas fa-hourglass-half"></i> <strong>Manual routing & delays</strong> – weeks of latency.</li>
-      <li><i class="fas fa-coins"></i> <strong>No cost/manpower estimation</strong> – separate site assessment.</li>
-      <li><i class="fas fa-map-pin"></i> <strong>Weak geo-tagging</strong> – user typed addresses often inaccurate.</li>
-      <li><i class="fas fa-file-image"></i> <strong>Unprocessed visual evidence</strong> – images never analyzed.</li>
+      <li><i class="fas fa-ban" style="color:#e06060;"></i> &nbsp;<strong>No Quantitative Severity Metrics:</strong> Inability to assess depth, area, or structural criticality of damage, causing flat-weighted prioritization where minor issues may supersede critical hazards.</li>
+      <li><i class="fas fa-hourglass-half" style="color:#e06060;"></i> &nbsp;<strong>Multi-Week Processing Latency:</strong> Sequential manual routing and necessity for physical on-site verification before any budgetary approvals can be initiated.</li>
+      <li><i class="fas fa-coins" style="color:#e06060;"></i> &nbsp;<strong>No Predictive Cost Analytics:</strong> Total absence of algorithmic estimations for budgetary requirements, material volume, and manpower allocation.</li>
+      <li><i class="fas fa-map-pin" style="color:#e06060;"></i> &nbsp;<strong>Inaccurate Geo-Tagging:</strong> Reliance on manually entered addresses or degraded GPS, leading to misdirected maintenance crews and wasted resources.</li>
+      <li><i class="fas fa-file-image" style="color:#e06060;"></i> &nbsp;<strong>Unprocessed Visual Evidence:</strong> Submitted photographic evidence remains entirely unanalyzed, squandering critical optical data for pattern recognition.</li>
     </ul>
   </div>
 
   <!-- 07. PROPOSED SYSTEM -->
   <div class="topic-page" id="proposed">
-    <div class="topic-title">07. Proposed System: Two‑Module Architecture</div>
+    <div class="topic-title">07. Proposed System</div>
+    <p class="section-intro">To overcome limitations of existing systems, CivicEye introduces a two-module architecture combining a lightweight user interface with an intelligent AI-powered backend. This reduces manual processing, improves detection accuracy, and automates the entire reporting workflow.</p>
     <div class="grid-2">
-      <div class="card" style="border-top: 4px solid #1e6f5c;"><i class="fas fa-user" style="font-size:32px"></i><h3>Citizen Module</h3><p>Camera capture, Geolocation API, description + instant submit.</p></div>
-      <div class="card" style="border-top: 4px solid #f5c542;"><i class="fas fa-microchip" style="font-size:32px"></i><h3>Government AI Module</h3><p>YOLOv8 detection, severity scoring, cost/manpower, SMTP dispatch.</p></div>
+      <div class="card" style="border-top:4px solid var(--green);">
+        <i class="fas fa-user-astronaut" style="font-size:30px; color:var(--green);"></i>
+        <h3 style="margin:12px 0 8px;">Tier 1: Client-Side Interface Module</h3>
+        <p style="text-align:justify; font-size:14px; line-height:1.7;">Provides a user-friendly web interface for citizens to upload road damage images and location details using HTML5 camera, geolocation tracking, and secure data transmission to the backend server.</p>
+      </div>
+      <div class="card" style="border-top:4px solid var(--gold);">
+        <i class="fas fa-network-wired" style="font-size:30px; color:var(--gold);"></i>
+        <h3 style="margin:12px 0 8px;">Tier 2: AI-Based Municipal Intelligence Module</h3>
+        <p style="text-align:justify; font-size:14px; line-height:1.7;">The core processing unit. Uses YOLOv8 Deep Learning for real-time pothole detection, severity calculation, priority analysis, repair cost prediction, and automated SMTP report generation to municipal authorities.</p>
+      </div>
     </div>
   </div>
 
-  <!-- 08. PROPOSED SYSTEM ARCHITECTURE -->
-<div class="topic-page" id="proposed-arch">
-  <div class="topic-title">08. Proposed System Architecture</div>
+  <!-- 08. PROPOSED ARCHITECTURE -->
+  <div class="topic-page" id="proposed-arch">
+    <div class="topic-title">08. Proposed System Architecture</div>
 
-  <!-- Flowchart -->
-  <div class="diagram-box">
-    <div class="mermaid">
+    <div class="diagram-box">
+      <h4><i class="fas fa-project-diagram"></i> CivicEye Data Pipeline Flowchart</h4>
+      <div class="mermaid">
 flowchart TD
-    Citizen["📸 Citizen (Image + GPS)"] -->|Upload| Backend["Flask Backend"]
-    Backend --> Geo["Hybrid Geo Extraction (EXIF / OCR / Manual)"]
-    Geo --> Location["Location Identified"]
-
-    Backend --> YOLO["YOLOv8 Model (Detection + Segmentation)"]
-    YOLO --> Severity["Damage Severity Calculation"]
-
-    Severity --> Decision["Priority (High / Medium / Low)"]
-    Decision --> Cost["Cost & Manpower Estimation"]
-
-    Cost --> Email["Automatic Email Generation (SMTP)"]
-    Email --> Govt["Government Authority"]
+    Citizen["📸 Citizen Interface\nImage + GPS Payload"] -->|HTTPS POST| Backend["⚙️ Flask RESTful API Gateway"]
+    Backend --> Geo["🗺️ Hybrid Geo-Extraction Engine\nEXIF / Tesseract OCR / GPS API"]
+    Geo --> Location["📍 Verified Coordinate Matrix"]
+    Backend --> YOLO["🤖 YOLOv8 Deep Learning Engine\nDetection + Instance Segmentation"]
+    YOLO --> Severity["📊 Severity Computation\nPixel-Density Ratio Analysis"]
+    Severity --> Decision["🚦 Priority Classification\nCRITICAL / HIGH / MODERATE / LOW"]
+    Decision --> Cost["💰 Predictive Cost & Manpower Estimation"]
+    Cost --> Synthesis["📋 Evidentiary Report Synthesis\nAnnotated Image + JSON Data"]
+    Location --> Synthesis
+    Synthesis --> Email["📧 SMTP Alert Dispatcher"]
+    Email --> Govt["🏛️ Municipal Authority Inbox"]
+      </div>
     </div>
-  </div>
 
-  <!-- Sequence Diagram -->
-  <div class="diagram-box">
-    <div class="mermaid">
+    <div class="arch-note">
+      <strong><i class="fas fa-info-circle"></i> What happens when a non-pothole image is uploaded?</strong><br>
+      If YOLOv8 detects no road damage in the submitted image, the system returns a <strong>"No Civic Anomaly Detected"</strong> response. The image is flagged as invalid, no report is generated, and the citizen is prompted to re-submit a clearer image. This prevents false reports and ensures only verified issues reach municipal authorities.
+    </div>
+
+    <div class="diagram-box" style="margin-top:20px;">
+      <h4><i class="fas fa-exchange-alt"></i> System Event Sequence Diagram</h4>
+      <div class="mermaid">
 sequenceDiagram
-    participant Citizen
-    participant Flask
-    participant YOLO
-    participant Email
-    participant Govt
-
-    Citizen->>Flask: Upload image + location
-    Flask->>YOLO: Run detection model
-    YOLO-->>Flask: Return results
-    Flask->>Flask: Calculate severity & priority
-    Flask->>Email: Generate complaint email
-    Email->>Govt: Send report
-    Flask-->>Citizen: Show result
+    participant Citizen Interface
+    participant Flask API Gateway
+    participant YOLOv8 AI Engine
+    participant SMTP Dispatcher
+    participant Municipal Authority
+    Citizen Interface->>Flask API Gateway: Send Encrypted Image + GPS Data
+    activate Flask API Gateway
+    Flask API Gateway->>YOLOv8 AI Engine: Initialize Inferencing
+    activate YOLOv8 AI Engine
+    YOLOv8 AI Engine-->>Flask API Gateway: Bounding Boxes + Segmentation Masks
+    deactivate YOLOv8 AI Engine
+    Flask API Gateway->>Flask API Gateway: Compute Severity, Priority & Cost
+    Flask API Gateway->>SMTP Dispatcher: Synthesize Municipal Action Report
+    activate SMTP Dispatcher
+    SMTP Dispatcher->>Municipal Authority: Dispatch High-Priority Alert
+    deactivate SMTP Dispatcher
+    Flask API Gateway-->>Citizen Interface: 200 OK - Successful Processing
+    deactivate Flask API Gateway
+      </div>
     </div>
   </div>
-</div>
 
   <!-- 09. ADVANTAGES -->
   <div class="topic-page" id="advantages">
-    <div class="topic-title">09. Advantages of Proposed System</div>
+    <div class="topic-title">09. Advantages</div>
     <div class="grid-3">
-      <div class="card"><i class="fas fa-chart-line"></i> <strong>Objective Severity</strong><br>Pixel‑ratio quantification.</div>
-      <div class="card"><i class="fas fa-bolt"></i> <strong>End‑to‑End Automation</strong><br>30 sec to govt email.</div>
-      <div class="card"><i class="fas fa-location-dot"></i> <strong>Hybrid Geo‑Extraction</strong><br>EXIF+OCR+manual.</div>
-      <div class="card"><i class="fas fa-coins"></i> <strong>Cost & Manpower</strong><br>Budget planning ready.</div>
-      <div class="card"><i class="fas fa-image"></i> <strong>Annotated Proof</strong><br>Mask overlay attached.</div>
-      <div class="card"><i class="fas fa-cloud"></i> <strong>Zero Infrastructure</strong><br>Open source stack.</div>
+      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-chart-line"></i></div><h4>Deterministic Severity Quantification</h4><p>Replaces human subjectivity with precise pixel-ratio analysis to generate an infallible 0–100% damage severity index.</p></div>
+      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-bolt"></i></div><h4>End-to-End Automation</h4><p>Achieves sub-30-second autonomous processing from citizen capture to final municipal dispatch, eliminating multi-week latency.</p></div>
+      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-location-dot"></i></div><h4>High-Fidelity Geo-Extraction</h4><p>Tri-layered coordinate validation (EXIF + OCR + GPS API) ensures pinpoint accuracy even in signal-degraded urban zones.</p></div>
+      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-coins"></i></div><h4>Predictive Resource Modeling</h4><p>Instantaneous cost variables, material volume, and manpower heuristics streamline municipal budget approvals.</p></div>
+      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-image"></i></div><h4>AI-Annotated Evidence</h4><p>Eliminates visual ambiguity by attaching algorithmically generated neural segmentation masks onto photographic evidence.</p></div>
+      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-cloud"></i></div><h4>Zero-Footprint Deployment</h4><p>Scalable, browser-native architecture eliminates the friction of dedicated app installations for citizens.</p></div>
     </div>
   </div>
 
   <!-- 10. MODULES -->
   <div class="topic-page" id="modules">
-    <div class="topic-title">10. Modules</div>
+    <div class="topic-title">10. Core System Modules</div>
     <div class="grid-2">
-      <div class="card"><h3><i class="fas fa-user"></i> Citizen Module</h3><ul><li>HTML5 Camera + Geolocation API</li><li>Description + submit</li><li>Fetch API to backend</li></ul></div>
-      <div class="card"><h3><i class="fas fa-robot"></i> AI Government Module</h3><ul><li>YOLOv8 segmentation</li><li>Severity = damaged pixels / total</li><li>Priority tiers (HIGH/MED/LOW)</li><li>SMTP auto dispatch</li></ul></div>
+      <div class="card">
+        <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--green);"><i class="fas fa-user-shield"></i> Module I: Citizen Interface</h3>
+        <ul style="padding-left:20px; font-size:14px; line-height:1.8;">
+          <li><strong>Media Acquisition:</strong> HTML5 Camera integration with canvas manipulation and dynamic image compression.</li>
+          <li><strong>Telemetry Extraction:</strong> Native Geolocation APIs with W3C high-accuracy longitude/latitude parsing.</li>
+          <li><strong>Data Serialization:</strong> Comprehensive descriptor payloads encapsulating user inputs and metadata.</li>
+          <li><strong>Network Protocol:</strong> Asynchronous Fetch API executing non-blocking POST requests to the backend.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--gold);"><i class="fas fa-microchip"></i> Module II: AI Intelligence Core</h3>
+        <ul style="padding-left:20px; font-size:14px; line-height:1.8;">
+          <li><strong>Neural Processing:</strong> Ultralytics YOLOv8 Convolutional Instance Segmentation on custom infrastructure datasets.</li>
+          <li><strong>Severity Formula:</strong> <code style="background:var(--green-light); padding:2px 6px; border-radius:4px;">Σ(Damaged Pixels) / Area(Bounding Box)</code></li>
+          <li><strong>Priority Logic:</strong> Dynamic tiering into CRITICAL, HIGH, MODERATE, or LOW response levels.</li>
+          <li><strong>Communication:</strong> Secure SMTP with TLS encryption for instant governmental notification.</li>
+        </ul>
+      </div>
     </div>
   </div>
 
-  <!-- 11. SOFTWARE REQUIREMENTS -->
+  <!-- 11. REQUIREMENTS -->
   <div class="topic-page" id="requirements">
-    <div class="topic-title">11. Software Requirements</div>
-    <div class="grid-2">
-      <div class="card"><h3>Software</h3><p>Python 3.10+, Flask, YOLOv8, PyTorch, OpenCV, Tesseract, HTML5/JS</p></div>
-      
+    <div class="topic-title">11. System Requirements</div>
+    <div class="card">
+      <h3 style="margin-bottom:18px; color:var(--dark);">Core Technological Stack</h3>
+      <div style="display:flex; flex-wrap:wrap; gap:24px;">
+        <div style="flex:1; min-width:240px;">
+          <ul style="padding-left:20px; font-size:14px; line-height:1.9;">
+            <li><strong>Runtime:</strong> Python 3.10+</li>
+            <li><strong>Backend Framework:</strong> Flask RESTful APIs</li>
+            <li><strong>Deep Learning:</strong> Ultralytics YOLOv8 + PyTorch (CUDA accelerated)</li>
+            <li><strong>Computer Vision:</strong> OpenCV (cv2)</li>
+          </ul>
+        </div>
+        <div style="flex:1; min-width:240px;">
+          <ul style="padding-left:20px; font-size:14px; line-height:1.9;">
+            <li><strong>OCR Engine:</strong> Tesseract OCR</li>
+            <li><strong>Frontend:</strong> HTML5, ES6+ JavaScript, CSS3</li>
+            <li><strong>Communication:</strong> Secure SMTP (TLS encrypted)</li>
+            <li><strong>Dependencies:</strong> Pip virtual environments</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
-<!-- 12. IMPLEMENTATION SCREENSHOTS + VIDEO -->
-<div class="topic-page" id="screenshots">
-  <div class="topic-title">12. Implementation Screenshots & Video</div>
+  <!-- 12. SCREENSHOTS -->
+  <div class="topic-page" id="screenshots">
+    <div class="topic-title">12. Implementation Screenshots &amp; Demo</div>
 
-  <!-- UI cards -->
-  <div class="grid-2">
-    <div class="card" style="text-align:center;">
-      <i class="fas fa-camera" style="font-size:42px; color:#1e6f5c;"></i>
-      <p><strong>Citizen Capture UI</strong><br>Geolocation + Camera</p>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="card" style="text-align:center;">
+        <i class="fas fa-camera" style="font-size:38px; color:var(--green); margin-bottom:10px;"></i>
+        <p><strong>Citizen Capture UI</strong><br>Geolocation + Camera Integration</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <i class="fas fa-chart-pie" style="font-size:38px; color:var(--gold); margin-bottom:10px;"></i>
+        <p><strong>YOLOv8 Detection Output</strong><br>Segmentation + Severity Score</p>
+      </div>
     </div>
 
-    <div class="card" style="text-align:center;">
-      <i class="fas fa-chart-pie" style="font-size:42px; color:#1e6f5c;"></i>
-      <p><strong>YOLO Detection</strong><br>Segmentation + Severity</p>
+    <div style="text-align:center; margin-bottom:20px;">
+      <img src="images/screenshot.png" class="screenshot-img" alt="Detection Dashboard">
+      <div style="margin-top:10px;"><span class="badge-pill badge-green">Detection Dashboard Output</span></div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:20px;">
+      <img src="images/immple.png" class="screenshot-img" alt="Implementation 1">
+      <img src="images/immple11.png" class="screenshot-img" alt="Implementation 2">
+    </div>
+
+    <div class="video-demo">
+      <p><i class="fas fa-video"></i> &nbsp;System Workflow Demo</p>
+      <video width="100%" controls>
+        <source src="images/output.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <i class="fas fa-envelope" style="color:var(--green);"></i>
+      &nbsp;<strong>Auto-Generated Email Report:</strong> Includes severity score, priority classification, estimated cost, manpower requirement, GPS location, and AI-annotated image — dispatched instantly to municipal authorities via SMTP.
+    </div>
+
+    <!-- CONFERENCE SECTION -->
+    <div class="conf-section">
+      <h3><i class="fas fa-microphone" style="color:var(--green);"></i> Conference Presentation &amp; Certificates</h3>
+      <p style="font-size:14px; color:#3c6e71; line-height:1.7; margin-bottom:14px;">
+        CivicEye was presented at an international conference. Below are the presentation screenshot and team certificates acknowledging our successful publication and presentation.
+      </p>
+      <a href="https://share.google/VfNwDmaRRKejjIZ3D" target="_blank"
+         style="display:inline-flex; align-items:center; gap:8px; background:var(--green); color:white; padding:10px 22px; border-radius:30px; text-decoration:none; font-weight:700; font-size:13px; margin-bottom:18px;">
+        <i class="fas fa-external-link-alt"></i> View Conference Details
+      </a>
+
+      <div style="margin-bottom:16px;">
+        <p style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:8px;"><i class="fas fa-image" style="color:var(--green);"></i> Conference Presentation Screenshot</p>
+        <img src="images/confernse scrren sakthi.jpeg" class="screenshot-img" alt="Conference Screenshot" onerror="this.style.opacity='0.3'">
+      </div>
+
+      <div class="conf-img-grid">
+        <div>
+          <p style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:8px;"><i class="fas fa-certificate" style="color:var(--gold);"></i> Certificate – Harish Kumar S</p>
+          <img src="images/confernse scrren harsih.png" alt="Certificate Harish" onerror="this.style.opacity='0.3'">
+        </div>
+        <div>
+          <p style="font-size:13px; font-weight:700; color:var(--dark); margin-bottom:8px;"><i class="fas fa-certificate" style="color:var(--gold);"></i> Certificate – Loga Jothy V</p>
+          <img src="images/confernse scrren sakthiii.jpeg" alt="Certificate Loga Jothy" onerror="this.style.opacity='0.3'">
+        </div>
+      </div>
+    </div>
+
+    <!-- PUBLICATION SECTION -->
+    <div class="pub-section">
+      <h3><i class="fas fa-file-alt" style="color:var(--gold);"></i> Proof of Paper Publication</h3>
+      <p style="font-size:14px; color:#7a5a10; line-height:1.7; margin-bottom:16px;">
+        The research paper for CivicEye is currently under publication and review. The conference submission acknowledgement and acceptance proof are displayed below.
+      </p>
+      <img src="images/publication .png" class="screenshot-img" alt="Publication Proof Email" onerror="this.style.opacity='0.3'">
     </div>
   </div>
-
-  <!-- MAIN SCREENSHOT -->
-  <div style="text-align:center; margin:20px 0;">
-    <img src="images/screenshot.png"
-         style="max-width:100%; border-radius:20px;">
-    <p class="badge">Detection Dashboard Output</p>
-  </div>
-
-  <!-- EXTRA IMPLEMENTATION IMAGES -->
-  <div class="grid-2">
-    <img src="images/immple.png"
-         style="width:100%; border-radius:20px;">
-
-    <img src="images/immple11.png"
-         style="width:100%; border-radius:20px;">
-  </div>
-
-  <!-- VIDEO -->
-  <div class="video-demo" style="margin-top:20px;">
-    <p style="color:white;">
-      <i class="fas fa-video"></i> System Workflow (output.mp4)
-    </p>
-
-    <video width="100%" controls>
-      <source src="images/output.mp4" type="video/mp4">
-      Your browser does not support video.
-    </video>
-  </div>
-
-  <!-- EMAIL INFO -->
-  <div class="card" style="margin-top:20px;">
-    <i class="fas fa-envelope"></i>
-    <strong>Auto Email:</strong> Includes severity score, priority,
-    cost estimation, manpower, GPS location, and annotated image.
-  </div>
-</div>
-
-<!-- CONFERENCE INFO -->
-<div class="card" style="margin-top:20px;">
-  <i class="fas fa-microphone"></i>
-  <strong>Conference:</strong> 
-  :contentReference[oaicite:0]{index=0}
-  <br><br>
-  
-  <a href="https://share.google/VfNwDmaRRKejjIZ3D" target="_blank">
-    View Conference Details
-  </a>
-
-  <br><br>
-
-  <!-- IMAGE DISPLAY -->
-  <img src="images/confernse scrren harsih.png" 
-       alt="Conference Screenshot" 
-       style="width:100%; max-width:500px; border-radius:10px;">
-</div>
 
   <!-- 13. CONCLUSION -->
   <div class="topic-page" id="conclusion">
     <div class="topic-title">13. Conclusion</div>
-    <div class="card"><p>CivicEye integrates YOLOv8, hybrid geo-extraction and automated complaint dispatch, reducing processing time to under 30 seconds and providing objective severity scoring for smart city governance.</p></div>
+    <div class="card" style="background:var(--cream);">
+      <p style="text-align:justify; line-height:1.75; font-size:15px;">
+        In definitive summation, <strong>CivicEye</strong> pioneers a fundamentally transformative approach to municipal infrastructure maintenance and smart city governance. By autonomously detecting structural anomalies via state-of-the-art YOLOv8 deep convolutional neural networks, coupled with sophisticated hybrid geo-extraction (EXIF/OCR/GPS fusion) and deterministic spatial severity modeling, the system comprehensively negates the vulnerabilities of legacy architectures.
+      </p>
+      <p style="text-align:justify; line-height:1.75; font-size:15px; margin-top:16px;">
+        By eliminating subjective manual administrative overhead, the architecture accelerates end-to-end reporting latency from an industry-standard average of several weeks to <strong>under 30 seconds</strong>. CivicEye establishes a robust, scalable, zero-footprint, and fully predictive algorithmic foundation engineered for the next generation of autonomous municipal governance.
+      </p>
+    </div>
   </div>
 
   <!-- 14. FUTURE WORK -->
   <div class="topic-page" id="future">
     <div class="topic-title">14. Future Work</div>
-    <div class="card"><ul><li>Multi-class defect detection</li><li>GIS heatmap dashboard</li><li>Open311 API integration</li><li>Mobile offline reporting</li></ul></div>
-  </div>
-
-  <!-- 15. REFERENCES (exactly as given) -->
-  <div class="topic-page" id="references">
-    <div class="topic-title">15. References</div>
     <div class="card">
-      <ol style="margin-left: 20px;">
-        <li>M. Waghmare, “Democratic participation and smart city citizenship in emerging economies: Case of smart cities in India,” Government Information Quarterly, 2024. [Online]. Available: https://www.sciencedirect.com/science/article/abs/pii/S0264275124001240</li>
-        <li>F. Shama et al., “A complaining task distributive mobile application for smart city complaint management,” Sustainable Cities and Society, 2024.</li>
-        <li>V. Milias et al., “Crowdsourcing the influence of physical features on public open space use,” Humanities and Social Sciences Communications, 2024. [Online]. Available: https://link.springer.com/article/10.1007/s43762-024-00126-0</li>
-        <li>K. Epifantsev, “Crowdsourced data for informed urban development: A social media crowdsourcing test,” BIO Web of Conferences, RTBS 2024, 2024. [Online]. Available: https://www.bio-conferences.org/articles/bioconf/abs/2024/05/bioconf_rtbs2024_01076</li>
-        <li>Maeda, H., et al. "Road damage detection using deep neural networks." arXiv 2018.</li>
-        <li>Arya, D., et al. "RDD2020: An annotated image dataset." CEUR 2021.</li>
-      </ol>
-      <p style="margin-top:16px;"><i class="fab fa-github"></i> Project Repository: <strong>CivicEye</strong> – Achariya CET AI&DS Dept.</p>
+      <ul style="padding-left:20px; font-size:14.5px; line-height:1.9;">
+        <li style="margin-bottom:14px;"><strong>Edge-Computed Offline Reporting:</strong> Lightweight neural models executing inference on mobile processors via WebAssembly or TensorFlow.js in zero-connectivity environments.</li>
+        <li style="margin-bottom:14px;"><strong>Interactive GIS Heatmaps:</strong> Dynamic predictive dashboards plotting high-frequency anomaly clusters to pre-emptively route maintenance crews before critical failures occur.</li>
+        <li style="margin-bottom:14px;"><strong>Multi-Class Topographical Segmentation:</strong> Expanding the dataset to detect 50+ civic defect classes including obscured traffic signage, compromised bridge structures, and localized flooding.</li>
+        <li><strong>Open311 API Integration:</strong> Standardizing output payloads for universal government server interoperability globally.</li>
+      </ul>
     </div>
   </div>
 
+  <!-- 15. REFERENCES -->
+  <div class="topic-page" id="references">
+    <div class="topic-title">15. References</div>
+    <div class="card">
+      <ol style="margin-left:22px; line-height:1.85; font-size:14px; text-align:justify;">
+        <li style="margin-bottom:12px;">S. KC et al., "Enhanced pothole detection system using YOLOX algorithm," <em>Springer</em>, 2022.</li>
+        <li style="margin-bottom:12px;">Y. Jiang et al., "Road damage detection and classification using deep neural networks," <em>Springer</em>, 2024.</li>
+        <li style="margin-bottom:12px;">K. R. Ahmed et al., "Smart Pothole Detection Using Deep Learning Based on Dilated Convolution," <em>Sensors</em>, 2021.</li>
+        <li style="margin-bottom:12px;">A. A. Shaghouri et al., "Real-Time Pothole Detection Using Deep Learning," 2021.</li>
+        <li style="margin-bottom:12px;">R. R. Sahoo et al., "iWatchRoad: Scalable Detection and Geospatial Visualization of Potholes for Smart Cities," 2025.</li>
+      </ol>
+      <div style="margin-top:22px; padding-top:16px; border-top:1px solid var(--border); text-align:center; color:var(--green);">
+        <i class="fab fa-github" style="font-size:18px;"></i>
+        &nbsp;<strong>Project Repository:</strong> CivicEye Architectural Core – Achariya College of Engineering Technology, Puducherry &nbsp;|&nbsp; AI&amp;DS Dept.
+      </div>
+    </div>
+  </div>
+
+  <!-- THANK YOU SLIDE -->
+  <div class="thankyou-page" id="thankyou">
+    <div class="ty-title">Thank You</div>
+    <div class="ty-sub">We sincerely appreciate your time and valuable feedback</div>
+
+    <div class="ty-card">
+      <p style="font-size:15px; margin-bottom:16px; color:#e8f5f1;">We are deeply grateful to our <strong style="color:var(--gold);">External Reviewer</strong> for taking the time to evaluate our project. Your expert guidance and insights are invaluable to us.</p>
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:24px; margin-top:16px;">
+        <div style="text-align:center;">
+          <div style="font-size:13px; color:#a8ddd6; margin-bottom:4px;">Project Guide</div>
+          <div style="color:white; font-weight:700;">Mrs. P. Akila Devi</div>
+          <div style="font-size:12px; color:#7abfb8;">AP/AI&DS, Achariya CET</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:13px; color:#a8ddd6; margin-bottom:4px;">Project Coordinator</div>
+          <div style="color:white; font-weight:700;">Mrs. S. Rajalakshmi</div>
+          <div style="font-size:12px; color:#7abfb8;">AP & Head, Achariya CET</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:13px; color:#a8ddd6; margin-bottom:4px;">External Reviewer</div>
+          <div style="color:var(--gold); font-weight:700; font-size:16px;">— Honoured Guest —</div>
+          <div style="font-size:12px; color:#7abfb8;">Final Review, 11-05-2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ty-team">
+      <div class="ty-member">
+        <img src="images/sakthivel.jpg.jpeg" alt="Sakthivel" onerror="this.style.display='none'">
+        <div class="ty-name">Sakthivel S M</div>
+        <div class="ty-roll">22TP0017</div>
+      </div>
+      <div class="ty-member">
+        <img src="images/harish.jpg.jpeg" alt="Harish" onerror="this.style.display='none'">
+        <div class="ty-name">Harish Kumar S</div>
+        <div class="ty-roll">22TP0009</div>
+      </div>
+      <div class="ty-member">
+        <img src="images/logajothy.jpg.jpeg" alt="Loga Jothy" onerror="this.style.display='none'">
+        <div class="ty-name">Loga Jothy V</div>
+        <div class="ty-roll">22TP0013</div>
+      </div>
+    </div>
+
+    <div style="margin-top:32px;">
+      <span class="ty-ext-badge"><i class="fas fa-city"></i> &nbsp;CivicEye — AI for Smarter Governance</span>
+    </div>
+    <p style="color:#5a9a90; font-size:12px; margin-top:16px;">Department of Artificial Intelligence &amp; Data Science &nbsp;|&nbsp; Achariya College of Engineering Technology, Puducherry &nbsp;|&nbsp; 2022–2026</p>
+  </div>
+
   <footer>
-    <p>© 2026 Department of Artificial Intelligence & Data Science, Achariya College of Engineering Technology, Puducherry. <br> CivicEye – AI for Smarter Governance | Guided by Mrs. P. Akila Devi</p>
+    <p>© 2026 Department of Artificial Intelligence &amp; Data Science<br>
+    Achariya College of Engineering Technology, Puducherry<br>
+    <strong style="color:#f5c542;">CivicEye</strong> – AI for Smarter Governance &nbsp;|&nbsp; Guided by Mrs. P. Akila Devi (AP/AI&DS)</p>
   </footer>
+
 </div>
 
 <script>
@@ -624,25 +1077,23 @@ sequenceDiagram
     theme: 'base',
     themeVariables: {
       background: '#ffffff',
-      primaryColor: '#fef6e0',
-      primaryBorderColor: '#f5c542',
+      primaryColor: '#e8f5f1',
+      primaryBorderColor: '#1e6f5c',
       primaryTextColor: '#0f2c36',
       lineColor: '#1e6f5c',
-      fontFamily: 'Inter, sans-serif',
+      secondaryColor: '#fef6e0',
+      tertiaryColor: '#fff8f0',
+      fontFamily: '"Times New Roman", Times, serif',
+      fontSize: '14px'
     },
-    flowchart: { useMaxWidth: true, htmlLabels: true },
+    flowchart: { useMaxWidth: true, htmlLabels: true, curve: 'basis' },
     sequence: { useMaxWidth: true }
   });
 
-  // smooth scroll for nav buttons
-  const navBtns = document.querySelectorAll('.nav-btn');
-  navBtns.forEach(btn => {
+  document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const targetId = btn.getAttribute('data-target');
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      const el = document.getElementById(btn.getAttribute('data-target'));
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>
