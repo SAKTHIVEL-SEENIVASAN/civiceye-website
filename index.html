@@ -562,7 +562,7 @@ footer {
 
       <!-- TITLE -->
       <div class="cover-title-block">
-        <h1>CivicEye: An AI-Driven Computer Vision System<br>for Autonomous Civic Anomaly Detection,<br>Prioritization &amp; Expedited Resolution</h1>
+        <h1>CivicEye: An AI Driven Version-Based System<br>for Automated Civic Issue Detection,<br>Prioritization &amp;  Resolution</h1>
         <p class="subtitle">Real-time YOLOv8 Neural Inferencing &nbsp;|&nbsp; Hybrid GPS + EXIF + OCR Geo-Extraction &nbsp;|&nbsp; Predictive Severity &amp; Cost Modeling</p>
       </div>
 
@@ -857,20 +857,64 @@ sequenceDiagram
       </div>
     </div>
   </div>
+<!-- 9. TECHNOLOGIES & ALGORITHMS -->
 
-  <!-- 09. ADVANTAGES -->
-  <div class="topic-page" id="advantages">
-    <div class="topic-title">09. Advantages</div>
-    <div class="grid-3">
-      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-chart-line"></i></div><h4>Deterministic Severity Quantification</h4><p>Replaces human subjectivity with precise pixel-ratio analysis to generate an infallible 0–100% damage severity index.</p></div>
-      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-bolt"></i></div><h4>End-to-End Automation</h4><p>Achieves sub-30-second autonomous processing from citizen capture to final municipal dispatch, eliminating multi-week latency.</p></div>
-      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-location-dot"></i></div><h4>High-Fidelity Geo-Extraction</h4><p>Tri-layered coordinate validation (EXIF + OCR + GPS API) ensures pinpoint accuracy even in signal-degraded urban zones.</p></div>
-      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-coins"></i></div><h4>Predictive Resource Modeling</h4><p>Instantaneous cost variables, material volume, and manpower heuristics streamline municipal budget approvals.</p></div>
-      <div class="adv-card"><div class="icon" style="color:var(--green);"><i class="fas fa-image"></i></div><h4>AI-Annotated Evidence</h4><p>Eliminates visual ambiguity by attaching algorithmically generated neural segmentation masks onto photographic evidence.</p></div>
-      <div class="adv-card"><div class="icon" style="color:var(--gold);"><i class="fas fa-cloud"></i></div><h4>Zero-Footprint Deployment</h4><p>Scalable, browser-native architecture eliminates the friction of dedicated app installations for citizens.</p></div>
+<div class="topic-page" id="technologies">
+  <div class="topic-title">9. Technologies & Algorithms Used</div>
+
+  <div class="grid-3">
+
+    <div class="adv-card">
+      <div class="icon" style="color:var(--green);">
+        <i class="fas fa-brain"></i>
+      </div>
+      <h4>YOLOv8 Segmentation Algorithm</h4>
+      <p>Deep learning based computer vision algorithm used for real-time pothole segmentation and precise damage region detection from road images and videos.</p>
     </div>
-  </div>
 
+    <div class="adv-card">
+      <div class="icon" style="color:var(--gold);">
+        <i class="fas fa-chart-pie"></i>
+      </div>
+      <h4>Severity Estimation Formula</h4>
+      <p>Area-ratio mathematical model calculates pothole severity using:<br><b>Severity = (Pothole Area / Image Area) × 5</b></p>
+    </div>
+
+    <div class="adv-card">
+      <div class="icon" style="color:var(--green);">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <h4>Threshold Priority Classification</h4>
+      <p>Rule-based classification algorithm categorizes potholes into LOW, MEDIUM, and HIGH priority using predefined severity thresholds.</p>
+    </div>
+
+    <div class="adv-card">
+      <div class="icon" style="color:var(--gold);">
+        <i class="fas fa-coins"></i>
+      </div>
+      <h4>Linear Cost Estimation Model</h4>
+      <p>Repair expenditure prediction using:<br><b>Cost = Base Cost × (1 + Severity)</b></p>
+    </div>
+
+    <div class="adv-card">
+      <div class="icon" style="color:var(--green);">
+        <i class="fas fa-users"></i>
+      </div>
+      <h4>Manpower & Time Estimation</h4>
+      <p>Heuristic estimation formulas calculate workforce and completion days based on pothole count and severity levels.</p>
+    </div>
+
+    <div class="adv-card">
+      <div class="icon" style="color:var(--gold);">
+        <i class="fas fa-location-dot"></i>
+      </div>
+      <h4>EXIF + OCR Extraction Algorithm</h4>
+      <p>Metadata parsing and Tesseract OCR algorithms extract GPS coordinates, date, and time information from uploaded images.</p>
+    </div>
+
+  </div>
+</div>
+</div>
   <!-- 10. MODULES -->
   <div class="topic-page" id="modules">
     <div class="topic-title">10. Core System Modules</div>
