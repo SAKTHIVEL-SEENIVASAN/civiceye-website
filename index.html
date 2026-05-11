@@ -915,31 +915,107 @@ sequenceDiagram
   </div>
 </div>
 </div>
-  <!-- 10. MODULES -->
-  <div class="topic-page" id="modules">
-    <div class="topic-title">10. Core System Modules</div>
-    <div class="grid-2">
-      <div class="card">
-        <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--green);"><i class="fas fa-user-shield"></i> Module I: Citizen Interface</h3>
-        <ul style="padding-left:20px; font-size:14px; line-height:1.8;">
-          <li><strong>Media Acquisition:</strong> HTML5 Camera integration with canvas manipulation and dynamic image compression.</li>
-          <li><strong>Telemetry Extraction:</strong> Native Geolocation APIs with W3C high-accuracy longitude/latitude parsing.</li>
-          <li><strong>Data Serialization:</strong> Comprehensive descriptor payloads encapsulating user inputs and metadata.</li>
-          <li><strong>Network Protocol:</strong> Asynchronous Fetch API executing non-blocking POST requests to the backend.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--gold);"><i class="fas fa-microchip"></i> Module II: AI Intelligence Core</h3>
-        <ul style="padding-left:20px; font-size:14px; line-height:1.8;">
-          <li><strong>Neural Processing:</strong> Ultralytics YOLOv8 Convolutional Instance Segmentation on custom infrastructure datasets.</li>
-          <li><strong>Severity Formula:</strong> <code style="background:var(--green-light); padding:2px 6px; border-radius:4px;">Σ(Damaged Pixels) / Area(Bounding Box)</code></li>
-          <li><strong>Priority Logic:</strong> Dynamic tiering into CRITICAL, HIGH, MODERATE, or LOW response levels.</li>
-          <li><strong>Communication:</strong> Secure SMTP with TLS encryption for instant governmental notification.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <!-- 10.<!-- 10. SYSTEM ARCHITECTURE -->
+<div class="topic-page" id="modules">
+  <div class="topic-title">10. System Architecture</div>
 
+  <div class="grid-3">
+
+    <!-- FRONTEND -->
+    <div class="card">
+      <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--green);">
+        <i class="fas fa-desktop"></i> Frontend Layer
+      </h3>
+
+      <ul style="padding-left:20px; font-size:14px; line-height:1.9; text-align:justify;">
+
+        <li>
+          <strong>User Interface:</strong>
+          Responsive citizen portal developed using HTML5, CSS3, Bootstrap, and JavaScript for seamless pothole reporting.
+        </li>
+
+        <li>
+          <strong>Media Acquisition:</strong>
+          Browser-based camera integration enables real-time road image capture and upload functionality.
+        </li>
+
+        <li>
+          <strong>Geo-Location Services:</strong>
+          Native Geolocation APIs acquire latitude and longitude coordinates for location-aware civic reporting.
+        </li>
+
+        <li>
+          <strong>Client Communication:</strong>
+          Asynchronous Fetch API executes secure HTTPS POST requests for non-blocking backend interaction.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- BACKEND -->
+    <div class="card">
+      <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--gold);">
+        <i class="fas fa-server"></i> Backend Layer
+      </h3>
+
+      <ul style="padding-left:20px; font-size:14px; line-height:1.9; text-align:justify;">
+
+        <li>
+          <strong>RESTful API Gateway:</strong>
+          Flask-based backend framework manages request routing, media uploads, and server-side processing workflows.
+        </li>
+
+        <li>
+          <strong>Geo-Extraction Engine:</strong>
+          Hybrid EXIF metadata parsing and Tesseract OCR modules extract GPS coordinates, timestamps, and contextual metadata.
+        </li>
+
+        <li>
+          <strong>Data Serialization:</strong>
+          Structured JSON payload generation and report synthesis support scalable civic data management.
+        </li>
+
+        <li>
+          <strong>SMTP Notification Engine:</strong>
+          Automated email dispatch system securely transmits pothole intelligence reports to municipal authorities.
+        </li>
+
+      </ul>
+    </div>
+
+    <!-- AI -->
+    <div class="card">
+      <h3 style="border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px; color:var(--green);">
+        <i class="fas fa-brain"></i> AI Intelligence Layer
+      </h3>
+
+      <ul style="padding-left:20px; font-size:14px; line-height:1.9; text-align:justify;">
+
+        <li>
+          <strong>YOLOv8 Segmentation:</strong>
+          Ultralytics YOLOv8 deep learning architecture performs real-time pothole detection and instance segmentation.
+        </li>
+
+        <li>
+          <strong>Severity Analysis:</strong>
+          Pixel-density ratio computation evaluates pothole severity using segmented damaged road regions.
+        </li>
+
+        <li>
+          <strong>Priority Classification:</strong>
+          Threshold-based classification dynamically categorizes potholes into CRITICAL, HIGH, MODERATE, and LOW response levels.
+        </li>
+
+        <li>
+          <strong>Predictive Estimation:</strong>
+          Heuristic models estimate repair cost, manpower requirements, and expected maintenance duration.
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</div>
   <!-- 11. REQUIREMENTS -->
   <div class="topic-page" id="requirements">
     <div class="topic-title">11. System Requirements</div>
